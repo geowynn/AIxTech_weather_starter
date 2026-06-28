@@ -11,14 +11,17 @@ import type {
   Location,
   MapViewState,
   ProviderProps,
+  ThemeName,
   StoreValue,
 } from '../types';
 
 const StoreContext = createContext<StoreValue | null>(null);
+const THEME_STORAGE_KEY = 'weather_starter_theme';
 const DEFAULT_MAP_VIEW: MapViewState = {
   center: [1.3521, 103.8198],
   zoom: 11,
 };
+const DEFAULT_THEME: ThemeName = 'apple';
 
 function deriveMapView(locations: Location[]): MapViewState {
   if (locations.length === 0) return DEFAULT_MAP_VIEW;
@@ -49,10 +52,32 @@ export function StoreProvider({ children }: ProviderProps) {
   const [refreshingId, setRefreshingId] = useState<number | null>(null);
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
+  const [theme, setThemeState] = useState<ThemeName>(DEFAULT_THEME);
   const [error, setError] = useState<unknown>(null);
   const hydratedSavedLocations = useRef(false);
   const hydratedAirQualityLocations = useRef(false);
   const lastLocationsSignature = useRef('');
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (
+      saved === 'apple' ||
+      saved === 'slate' ||
+      saved === 'aurora' ||
+      saved === 'coastal-breeze' ||
+      saved === 'storm-radar' ||
+      saved === 'mountain-lodge' ||
+      saved === 'metro-transit' ||
+      saved === 'golden-hour' ||
+      saved === 'monsoon-ink'
+    )
+      setThemeState(saved);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   const updateMapView = useCallback((next: MapViewState) => {
     setMapView((current) => {
@@ -240,6 +265,7 @@ export function StoreProvider({ children }: ProviderProps) {
   const value: StoreValue = {
     locations,
     selectedId: effectiveSelectedId,
+    theme,
     isAdding,
     isLoading,
     refreshingId,
@@ -257,6 +283,7 @@ export function StoreProvider({ children }: ProviderProps) {
     openMap: () => setIsMapFullscreen(true),
     closeMap: () => setIsMapFullscreen(false),
     setMapView: updateMapView,
+    setTheme: setThemeState,
   };
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

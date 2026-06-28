@@ -49,6 +49,7 @@ export interface CreateLocationPayload {
 export interface StoreValue {
   locations: Location[];
   selectedId: number | null;
+  theme: ThemeName;
   isAdding: boolean;
   isLoading: boolean;
   refreshingId: number | null;
@@ -63,6 +64,7 @@ export interface StoreValue {
   openMap: () => void;
   closeMap: () => void;
   setMapView: (view: MapViewState) => void;
+  setTheme: (theme: ThemeName) => void;
 }
 
 export interface ProviderProps {
@@ -73,3 +75,14 @@ export interface MapViewState {
   center: [number, number];
   zoom: number;
 }
+
+export type ThemeName =
+  | 'apple'
+  | 'slate'
+  | 'aurora'
+  | 'coastal-breeze'
+  | 'storm-radar'
+  | 'mountain-lodge'
+  | 'metro-transit'
+  | 'golden-hour'
+  | 'monsoon-ink';

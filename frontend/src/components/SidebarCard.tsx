@@ -41,8 +41,8 @@ export function SidebarCard({ location, isHome }: SidebarCardProps) {
       aria-pressed={isSelected}
       className={`relative w-full cursor-pointer overflow-hidden rounded-2xl border text-left backdrop-blur-xl transition ${
         isSelected
-          ? 'border-white/30 bg-white/20 shadow-lg shadow-black/20'
-          : 'border-white/10 bg-white/[0.07] hover:bg-white/[0.12]'
+          ? 'weather-panel-strong border-white/30 bg-white/20 shadow-lg shadow-black/20'
+          : 'weather-panel border-white/10 bg-white/[0.07] hover:bg-white/[0.12]'
       }`}
     >
       <button
@@ -56,7 +56,7 @@ export function SidebarCard({ location, isHome }: SidebarCardProps) {
       <div className="flex items-start justify-between gap-3 px-4 pt-3">
         <div className="min-w-0">
           <div className="truncate text-lg font-semibold leading-tight text-white">{area}</div>
-          <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/70">
+          <div className="weather-muted mt-0.5 flex items-center gap-1.5 text-[11px] text-white/70">
             {isHome ? (
               <>
                 <span>My Location</span>

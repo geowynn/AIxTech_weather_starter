@@ -6,14 +6,14 @@ export function MapCard() {
   const { locations, mapView, openMap, select } = useStore();
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-xl">
+    <section className="weather-panel overflow-hidden rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-xl">
       <header className="flex items-center justify-between border-b border-white/10 px-4 py-3">
         <div>
           <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/60">
             <LocationIcon className="h-3.5 w-3.5" />
             <span>Map</span>
           </div>
-          <p className="mt-1 text-sm text-white/80">Saved locations on the map</p>
+          <p className="weather-muted mt-1 text-sm text-white/80">Saved locations on the map</p>
         </div>
         <button
           type="button"

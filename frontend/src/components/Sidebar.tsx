@@ -19,7 +19,7 @@ export function Sidebar() {
   }, [locations, query]);
 
   return (
-    <aside className="flex w-[22rem] shrink-0 flex-col gap-3 border-r border-white/5 bg-black/20 p-4 backdrop-blur-2xl">
+    <aside className="weather-shell flex w-[22rem] shrink-0 flex-col gap-3 border-r border-white/5 bg-black/20 p-4 backdrop-blur-2xl">
       <div className="relative">
         <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
         <input
@@ -27,7 +27,7 @@ export function Sidebar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search"
-          className="w-full rounded-lg border border-white/10 bg-white/[0.08] py-2 pl-9 pr-3 text-sm text-white placeholder:text-white/50"
+          className="weather-panel w-full rounded-lg border border-white/10 bg-white/[0.08] py-2 pl-9 pr-3 text-sm text-white placeholder:text-white/50"
         />
       </div>
 

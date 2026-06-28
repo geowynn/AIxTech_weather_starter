@@ -6,9 +6,22 @@ import { MapFullscreen } from './MapFullscreen';
 import { TenDayForecast } from './TenDayForecast';
 import { TileGrid } from './Tiles';
 import { formatTemperature, formatTime } from './format';
+import type { ThemeName } from '../types';
+
+const THEME_OPTIONS: Array<{ value: ThemeName; label: string }> = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'slate', label: 'Slate' },
+  { value: 'aurora', label: 'Aurora' },
+  { value: 'coastal-breeze', label: 'Coastal Breeze' },
+  { value: 'storm-radar', label: 'Storm Radar' },
+  { value: 'mountain-lodge', label: 'Mountain Lodge' },
+  { value: 'metro-transit', label: 'Metro Transit' },
+  { value: 'golden-hour', label: 'Golden Hour' },
+  { value: 'monsoon-ink', label: 'Monsoon Ink' },
+];
 
 export function Hero() {
-  const { locations, refresh, refreshingId } = useStore();
+  const { locations, refresh, refreshingId, theme, setTheme } = useStore();
   const selected = useSelectedLocation();
 
   if (!selected) {
@@ -41,7 +54,24 @@ export function Hero() {
   return (
     <main className="flex-1 overflow-y-auto">
       <div className="mx-auto flex max-w-5xl flex-col gap-3 p-6 lg:p-8">
-        <header className="flex flex-col items-center pt-6 pb-2 text-center">
+        <header className="relative flex flex-col items-center pt-6 pb-2 text-center">
+          <div className="absolute right-0 top-0">
+            <label className="sr-only" htmlFor="theme-selector">
+              Theme
+            </label>
+            <select
+              id="theme-selector"
+              value={theme}
+              onChange={(e) => setTheme(e.target.value as ThemeName)}
+              className="weather-panel rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-white shadow-sm shadow-black/10 backdrop-blur-xl"
+            >
+              {THEME_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value} className="text-black">
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
           {isHome && (
             <div className="mb-2 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
               <LocationIcon className="h-3 w-3" />
@@ -60,7 +90,7 @@ export function Hero() {
         </header>
 
         {validPeriod && (
-          <p className="px-2 pb-1 text-center text-xs text-white/65">{validPeriod}</p>
+          <p className="weather-muted px-2 pb-1 text-center text-xs text-white/65">{validPeriod}</p>
         )}
 
         <MapCard />
