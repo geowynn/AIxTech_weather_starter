@@ -2,7 +2,9 @@ import type { Router } from 'express';
 import { Router as createRouter } from 'express';
 import {
   createLocation,
+  deleteLocation,
   getLocation,
+  mergeWeatherSnapshot,
   listLocations,
   updateWeather,
 } from '../db.js';
@@ -53,7 +55,7 @@ export function createLocationsRouter(options: LocationsRouterOptions = {}): Rou
           location.latitude,
           location.longitude,
         );
-        const updated = await updateWeather(location.id, snapshot);
+        const updated = await updateWeather(location.id, mergeWeatherSnapshot(location.weather, snapshot));
         response.status(201).json(updated ?? location);
       } catch (error) {
         if (!(error instanceof WeatherProviderError)) throw error;
@@ -96,13 +98,27 @@ export function createLocationsRouter(options: LocationsRouterOptions = {}): Rou
       }
 
       const snapshot = await weatherClient.getCurrentWeather(location.latitude, location.longitude);
-      const updated = await updateWeather(locationId, snapshot);
+      const updated = await updateWeather(locationId, mergeWeatherSnapshot(location.weather, snapshot));
       response.json(updated);
     } catch (error) {
       if (error instanceof WeatherProviderError) {
         response.status(502).json({ detail: error.message });
         return;
       }
+      next(error);
+    }
+  });
+
+  router.delete('/locations/:locationId', async (request, response, next) => {
+    try {
+      const locationId = Number(request.params.locationId);
+      const deleted = await deleteLocation(locationId);
+      if (!deleted) {
+        response.status(404).json({ detail: 'Location not found' });
+        return;
+      }
+      response.status(204).end();
+    } catch (error) {
       next(error);
     }
   });

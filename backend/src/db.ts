@@ -104,6 +104,41 @@ export async function updateWeather(
   return row ? rowToRecord(row) : null;
 }
 
+export function mergeWeatherSnapshot(
+  current: WeatherSnapshot,
+  next: WeatherSnapshot,
+): WeatherSnapshot {
+  return {
+    ...current,
+    ...next,
+    temperature_c: next.temperature_c ?? current.temperature_c,
+    humidity_percent: next.humidity_percent ?? current.humidity_percent,
+    rainfall_mm: next.rainfall_mm ?? current.rainfall_mm,
+    wind_speed_knots: next.wind_speed_knots ?? current.wind_speed_knots,
+    wind_direction_degrees: next.wind_direction_degrees ?? current.wind_direction_degrees,
+    forecast_low_c: next.forecast_low_c ?? current.forecast_low_c,
+    forecast_high_c: next.forecast_high_c ?? current.forecast_high_c,
+    uv_index: next.uv_index ?? current.uv_index,
+    psi_twenty_four_hourly: next.psi_twenty_four_hourly ?? current.psi_twenty_four_hourly,
+    pm25_one_hourly: next.pm25_one_hourly ?? current.pm25_one_hourly,
+    air_quality_region: next.air_quality_region ?? current.air_quality_region,
+    forecast_periods: next.forecast_periods.length > 0 ? next.forecast_periods : current.forecast_periods,
+    daily_forecast: next.daily_forecast.length > 0 ? next.daily_forecast : current.daily_forecast,
+    condition: next.condition || current.condition,
+    observed_at: next.observed_at || current.observed_at,
+    source: next.source || current.source,
+    area: next.area ?? current.area,
+    valid_period_text: next.valid_period_text ?? current.valid_period_text,
+  };
+}
+
+export async function deleteLocation(id: number): Promise<boolean> {
+  const existing = await db.select({ id: locations.id }).from(locations).where(eq(locations.id, id)).get();
+  if (!existing) return false;
+  await db.delete(locations).where(eq(locations.id, id)).run();
+  return true;
+}
+
 export async function resetStore(): Promise<void> {
   await db.delete(locations).run();
   sqlite.prepare("DELETE FROM sqlite_sequence WHERE name = 'locations'").run();

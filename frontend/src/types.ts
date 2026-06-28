@@ -52,13 +52,24 @@ export interface StoreValue {
   isAdding: boolean;
   isLoading: boolean;
   refreshingId: number | null;
+  mapView: MapViewState;
+  isMapFullscreen: boolean;
   error: unknown;
   select: (id: number | null) => void;
   setAdding: (isAdding: boolean) => void;
   create: (payload: CreateLocationPayload) => Promise<void>;
   refresh: (id: number) => Promise<void>;
+  remove: (id: number) => Promise<void>;
+  openMap: () => void;
+  closeMap: () => void;
+  setMapView: (view: MapViewState) => void;
 }
 
 export interface ProviderProps {
   children: ReactNode;
+}
+
+export interface MapViewState {
+  center: [number, number];
+  zoom: number;
 }

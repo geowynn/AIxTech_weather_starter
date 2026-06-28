@@ -181,10 +181,72 @@ export class SingaporeWeatherClient {
   ) {}
 
   async getCurrentWeather(latitude: number, longitude: number): Promise<WeatherSnapshot> {
-    const forecastPayload = await this.fetchLatestForecastPayload().catch(() => null);
-    return forecastPayload
+    const [
+      forecastPayload,
+      twentyFourHourForecast,
+      fourDayForecast,
+      temperatureReading,
+      humidityReading,
+      rainfallReading,
+      windSpeedReading,
+      windDirectionReading,
+      uvReading,
+      airQuality,
+    ] = await Promise.all([
+      this.fetchLatestForecastPayload().catch(() => null),
+      this.fetchTwentyFourHourForecast(latitude, longitude).catch(() => null),
+      this.fetchFourDayForecast().catch(() => null),
+      this.fetchNearestReading('air-temperature', latitude, longitude).catch(() => null),
+      this.fetchNearestReading('relative-humidity', latitude, longitude).catch(() => null),
+      this.fetchNearestReading('rainfall', latitude, longitude).catch(() => null),
+      this.fetchNearestReading('wind-speed', latitude, longitude).catch(() => null),
+      this.fetchNearestReading('wind-direction', latitude, longitude).catch(() => null),
+      this.fetchUvIndex().catch(() => null),
+      this.fetchAirQuality(latitude, longitude).catch(() => null),
+    ]);
+
+    const snapshot = forecastPayload
       ? this.snapshotFromPayload(forecastPayload, latitude, longitude)
       : this.emptyForecastSnapshot();
+
+    const observedAt = latestTimestamp([
+      snapshot.observed_at,
+      twentyFourHourForecast?.timestamp ?? null,
+      temperatureReading?.timestamp ?? null,
+      humidityReading?.timestamp ?? null,
+      rainfallReading?.timestamp ?? null,
+      windSpeedReading?.timestamp ?? null,
+      windDirectionReading?.timestamp ?? null,
+      uvReading?.timestamp ?? null,
+      airQuality?.timestamp ?? null,
+    ]);
+
+    const mergedSnapshot: WeatherSnapshot = {
+      ...snapshot,
+      temperature_c: temperatureReading?.value ?? null,
+      humidity_percent: humidityReading?.value ?? null,
+      rainfall_mm: rainfallReading?.value ?? null,
+      wind_speed_knots: windSpeedReading?.value ?? null,
+      wind_direction_degrees: windDirectionReading?.value ?? null,
+      uv_index: uvReading?.value ?? null,
+      psi_twenty_four_hourly: airQuality?.psi ?? null,
+      pm25_one_hourly: airQuality?.pm25 ?? null,
+      air_quality_region: airQuality?.region ?? null,
+      daily_forecast: fourDayForecast?.days ?? snapshot.daily_forecast,
+      observed_at: observedAt ?? snapshot.observed_at,
+    };
+
+    if (!twentyFourHourForecast) return mergedSnapshot;
+
+    return {
+      ...mergedSnapshot,
+      forecast_low_c: twentyFourHourForecast.low,
+      forecast_high_c: twentyFourHourForecast.high,
+      forecast_periods: twentyFourHourForecast.periods,
+      observed_at:
+        latestTimestamp([mergedSnapshot.observed_at, twentyFourHourForecast.timestamp]) ??
+        mergedSnapshot.observed_at,
+    };
   }
 
   async fetchLatestForecastPayload(): Promise<ForecastPayload> {

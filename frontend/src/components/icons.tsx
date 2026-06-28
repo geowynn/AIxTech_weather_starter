@@ -148,3 +148,11 @@ export function CloseIcon({ className = 'h-3.5 w-3.5' }: IconProps) {
     </svg>
   );
 }
+
+export function ExpandIcon({ className = 'h-3.5 w-3.5' }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      <path d="M14 4h6v6M10 14 20 4M20 14v6h-6M4 20l6-6" />
+    </svg>
+  );
+}

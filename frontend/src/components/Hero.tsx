@@ -1,6 +1,8 @@
 import { useStore, useSelectedLocation } from '../state/store';
 import { LocationIcon, RefreshIcon } from './icons';
 import { HourlyStrip } from './HourlyStrip';
+import { MapCard } from './MapCard';
+import { MapFullscreen } from './MapFullscreen';
 import { TenDayForecast } from './TenDayForecast';
 import { TileGrid } from './Tiles';
 import { formatTemperature, formatTime } from './format';
@@ -61,6 +63,7 @@ export function Hero() {
           <p className="px-2 pb-1 text-center text-xs text-white/65">{validPeriod}</p>
         )}
 
+        <MapCard />
         <HourlyStrip periods={selected.weather?.forecast_periods} />
         <TenDayForecast weather={selected.weather} />
         <TileGrid weather={selected.weather} />
@@ -81,6 +84,7 @@ export function Hero() {
           </p>
         </footer>
       </div>
+      <MapFullscreen />
     </main>
   );
 }
