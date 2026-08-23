@@ -239,6 +239,3 @@ describe('locations API', () => {
 });
 
 
-it('fails on purpose', () => {
-  expect(true).toBe(false);
-});

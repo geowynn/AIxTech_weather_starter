@@ -85,4 +85,5 @@ export type ThemeName =
   | 'mountain-lodge'
   | 'metro-transit'
   | 'golden-hour'
-  | 'monsoon-ink';
+  | 'monsoon-ink'
+  | 'citrus-static';

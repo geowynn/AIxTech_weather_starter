@@ -13,6 +13,7 @@ import { logger } from '../logger.js';
 
 export interface WeatherClient {
   getCurrentWeather(latitude: number, longitude: number): Promise<WeatherSnapshot>;
+  getForecastArea?(latitude: number, longitude: number): Promise<string>;
 }
 
 interface LocationsRouterOptions {
@@ -48,20 +49,50 @@ export function createLocationsRouter(options: LocationsRouterOptions = {}): Rou
         return;
       }
 
+      const forecastArea = await resolveForecastArea(weatherClient, latitude, longitude);
+      const existingLocations = await listLocations();
+      for (const existing of existingLocations) {
+        const existingArea =
+          existing.weather.area ??
+          (await resolveForecastArea(weatherClient, existing.latitude, existing.longitude));
+        if (
+          existing.latitude === latitude &&
+          existing.longitude === longitude
+        ) {
+          response.status(409).json({
+            detail: `Forecast area "${existingArea}" is already saved`,
+            existing_location_id: existing.id,
+            forecast_area: existingArea,
+          });
+          return;
+        }
+        if (existingArea === forecastArea) {
+          response.status(409).json({
+            detail: `Forecast area "${forecastArea}" is already saved`,
+            existing_location_id: existing.id,
+            forecast_area: forecastArea,
+          });
+          return;
+        }
+      }
+
       const location = await createLocation(latitude, longitude);
 
       try {
-        const snapshot = await weatherClient.getCurrentWeather(
-          location.latitude,
-          location.longitude,
+        const snapshot = await weatherClient.getCurrentWeather(latitude, longitude);
+        const updated = await updateWeather(
+          location.id,
+          mergeWeatherSnapshot(location.weather, {
+            ...snapshot,
+            area: snapshot.area ?? forecastArea,
+          })
         );
-        const updated = await updateWeather(location.id, mergeWeatherSnapshot(location.weather, snapshot));
         response.status(201).json(updated ?? location);
       } catch (error) {
         if (!(error instanceof WeatherProviderError)) throw error;
         logger.warn(
           { err: error, locationId: location.id },
-          'weather refresh failed after location create',
+          'weather refresh failed after location create'
         );
         response.status(201).json(location);
       }
@@ -69,6 +100,10 @@ export function createLocationsRouter(options: LocationsRouterOptions = {}): Rou
       if (error instanceof Error && error.name === 'DuplicateLocationError') {
         logger.warn({ err: error }, 'duplicate location rejected');
         response.status(409).json({ detail: error.message });
+        return;
+      }
+      if (error instanceof WeatherProviderError) {
+        response.status(502).json({ detail: error.message });
         return;
       }
       next(error);
@@ -98,7 +133,10 @@ export function createLocationsRouter(options: LocationsRouterOptions = {}): Rou
       }
 
       const snapshot = await weatherClient.getCurrentWeather(location.latitude, location.longitude);
-      const updated = await updateWeather(locationId, mergeWeatherSnapshot(location.weather, snapshot));
+      const updated = await updateWeather(
+        locationId,
+        mergeWeatherSnapshot(location.weather, snapshot)
+      );
       response.json(updated);
     } catch (error) {
       if (error instanceof WeatherProviderError) {
@@ -124,4 +162,18 @@ export function createLocationsRouter(options: LocationsRouterOptions = {}): Rou
   });
 
   return router;
+}
+
+async function resolveForecastArea(
+  weatherClient: WeatherClient,
+  latitude: number,
+  longitude: number
+): Promise<string> {
+  const area = weatherClient.getForecastArea
+    ? await weatherClient.getForecastArea(latitude, longitude)
+    : (await weatherClient.getCurrentWeather(latitude, longitude)).area;
+  if (!area) {
+    throw new WeatherProviderError('Unable to determine the nearest Singapore forecast area');
+  }
+  return area;
 }

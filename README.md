@@ -169,7 +169,7 @@ Add a `DELETE /api/locations/:id` endpoint and a delete button to each card in `
 
 ### 2. Geolocation + auto-detect
 
-Add a "Use my location" button that detects the user's position, finds the nearest Singapore forecast area, and adds it automatically. Works on local development origins; if you need HTTPS, run Portless with `PORTLESS_HTTPS=1`.
+The app includes a "Use my location" button beside the manual coordinate form. It detects the user's position with the browser Geolocation API, rejects positions outside Singapore, preserves exact coordinates, and uses the nearest Singapore forecast area for duplicate detection. It works on local development origins; if you need HTTPS, run Portless with `PORTLESS_HTTPS=1`.
 
 | Layer    | What to do                                                                          |
 | -------- | ----------------------------------------------------------------------------------- |
@@ -222,11 +222,11 @@ Redesign the app layout and styling. Use polished weather condition cards, meani
 
 Add a map card to the dashboard as part of the themed dashboard experience. Show all saved locations as pins with small weather labels above them. The card can expand into a full-screen map view, but users should continue adding locations through the existing add-location flow rather than creating pins directly from the map.
 
-| Layer    | What to do                                                                                                       |
-| -------- | ---------------------------------------------------------------------------------------------------------------- |
-| Backend  | No changes needed                                                                                                |
-| Frontend | Restyle existing components with Tailwind. Add weather icons, condition-based accents, better mobile states, and a map card using Leaflet/React Leaflet or another map library. |
-| NPM packages | `leaflet`, `react-leaflet` or equivalent |
+| Layer        | What to do                                                                                                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Backend      | No changes needed                                                                                                                                                               |
+| Frontend     | Restyle existing components with Tailwind. Add weather icons, condition-based accents, better mobile states, and a map card using Leaflet/React Leaflet or another map library. |
+| NPM packages | `leaflet`, `react-leaflet` or equivalent                                                                                                                                        |
 
 ### 8. Location detail page with charts
 

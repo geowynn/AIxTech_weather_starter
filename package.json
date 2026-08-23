@@ -7,6 +7,8 @@
     "prepare": "husky",
     "dev": "node scripts/dev.mjs",
     "build": "npm run build -w frontend && tsc -p backend/tsconfig.json",
+    "format": "prettier --write .",
+    "lint": "eslint frontend backend",
     "start": "node scripts/start.mjs",
     "doctor": "node scripts/doctor.mjs",
     "reset": "node scripts/reset.mjs",

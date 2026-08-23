@@ -74,7 +74,10 @@ export function TenDayForecast({ weather }: TenDayForecastProps) {
                   {offsets && (
                     <div
                       className="absolute top-0 h-1.5 rounded-full bg-gradient-to-r from-sky-300/80 via-amber-300/70 to-orange-300/80"
-                      style={{ left: `${offsets.left}%`, right: `${offsets.right}%` }}
+                      style={{
+                        left: `${offsets.left}%`,
+                        right: `${offsets.right}%`,
+                      }}
                     />
                   )}
                 </div>

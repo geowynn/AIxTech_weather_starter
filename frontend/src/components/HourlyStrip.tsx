@@ -38,7 +38,9 @@ export function HourlyStrip({ periods = [] }: HourlyStripProps) {
       </p>
       <div
         className="grid divide-x divide-white/5"
-        style={{ gridTemplateColumns: `repeat(${slots.length}, minmax(0, 1fr))` }}
+        style={{
+          gridTemplateColumns: `repeat(${slots.length}, minmax(0, 1fr))`,
+        }}
       >
         {slots.map((slot) => {
           const isFair = slot.forecast?.toLowerCase().includes('fair');

@@ -39,7 +39,9 @@ export function MapCard() {
       </div>
 
       <footer className="flex items-center justify-between border-t border-white/10 px-4 py-3 text-xs text-white/60">
-        <span>{locations.length} saved location{locations.length === 1 ? '' : 's'}</span>
+        <span>
+          {locations.length} saved location{locations.length === 1 ? '' : 's'}
+        </span>
         <span className="inline-flex items-center gap-1.5">
           <ExpandIcon className="h-3.5 w-3.5" />
           Fullscreen

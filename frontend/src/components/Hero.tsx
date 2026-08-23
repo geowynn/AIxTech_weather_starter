@@ -18,6 +18,7 @@ const THEME_OPTIONS: Array<{ value: ThemeName; label: string }> = [
   { value: 'metro-transit', label: 'Metro Transit' },
   { value: 'golden-hour', label: 'Golden Hour' },
   { value: 'monsoon-ink', label: 'Monsoon Ink' },
+  { value: 'citrus-static', label: 'Citrus Static' },
 ];
 
 export function Hero() {

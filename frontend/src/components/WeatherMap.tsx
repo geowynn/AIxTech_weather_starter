@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Marker, MapContainer, TileLayer, Tooltip, useMapEvents } from 'react-leaflet';
 import { divIcon, type LatLngExpression } from 'leaflet';
 import { useStore } from '../state/store';
@@ -31,7 +31,7 @@ function LocationPins({
         iconSize: [1, 1],
         iconAnchor: [0, 0],
       }),
-    [],
+    []
   );
 
   return (
@@ -104,7 +104,7 @@ export function WeatherMap({ locations, view, onViewChange, onLocationClick }: W
       zoomControl={false}
     >
       <TileLayer
-        attribution='&copy; OpenStreetMap contributors'
+        attribution="&copy; OpenStreetMap contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MapSync view={view} onViewChange={handleViewChange} />

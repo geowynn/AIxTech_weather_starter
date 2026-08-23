@@ -51,7 +51,7 @@ await migrate(
       if (trimmed) sqlite.exec(trimmed);
     }
   },
-  { migrationsFolder: join(process.cwd(), 'backend', 'drizzle') },
+  { migrationsFolder: join(process.cwd(), 'backend', 'drizzle') }
 );
 
 export async function listLocations(): Promise<LocationRecord[]> {
@@ -96,7 +96,7 @@ export async function getLocation(id: number): Promise<LocationRecord | null> {
 
 export async function updateWeather(
   id: number,
-  weather: WeatherSnapshot,
+  weather: WeatherSnapshot
 ): Promise<LocationRecord | null> {
   const columns = weatherToColumns(weather);
   const row = await db.update(locations).set(columns).where(eq(locations.id, id)).returning().get();
@@ -106,7 +106,7 @@ export async function updateWeather(
 
 export function mergeWeatherSnapshot(
   current: WeatherSnapshot,
-  next: WeatherSnapshot,
+  next: WeatherSnapshot
 ): WeatherSnapshot {
   return {
     ...current,
@@ -122,7 +122,8 @@ export function mergeWeatherSnapshot(
     psi_twenty_four_hourly: next.psi_twenty_four_hourly ?? current.psi_twenty_four_hourly,
     pm25_one_hourly: next.pm25_one_hourly ?? current.pm25_one_hourly,
     air_quality_region: next.air_quality_region ?? current.air_quality_region,
-    forecast_periods: next.forecast_periods.length > 0 ? next.forecast_periods : current.forecast_periods,
+    forecast_periods:
+      next.forecast_periods.length > 0 ? next.forecast_periods : current.forecast_periods,
     daily_forecast: next.daily_forecast.length > 0 ? next.daily_forecast : current.daily_forecast,
     condition: next.condition || current.condition,
     observed_at: next.observed_at || current.observed_at,
@@ -133,7 +134,11 @@ export function mergeWeatherSnapshot(
 }
 
 export async function deleteLocation(id: number): Promise<boolean> {
-  const existing = await db.select({ id: locations.id }).from(locations).where(eq(locations.id, id)).get();
+  const existing = await db
+    .select({ id: locations.id })
+    .from(locations)
+    .where(eq(locations.id, id))
+    .get();
   if (!existing) return false;
   await db.delete(locations).where(eq(locations.id, id)).run();
   return true;
@@ -199,7 +204,7 @@ function rowToRecord(row: LocationRow): LocationRecord {
 async function sqliteCallback(
   sql: string,
   params: unknown[],
-  method: 'run' | 'all' | 'values' | 'get',
+  method: 'run' | 'all' | 'values' | 'get'
 ): Promise<{ rows: unknown[] }> {
   const statement = sqlite.prepare(sql);
   const bindings = params as never[];
@@ -209,7 +214,9 @@ async function sqliteCallback(
   }
   if (method === 'get') {
     const row = statement.get(...bindings) as Record<string, unknown> | undefined;
-    return { rows: row ? Object.values(row) : (undefined as unknown as unknown[]) };
+    return {
+      rows: row ? Object.values(row) : (undefined as unknown as unknown[]),
+    };
   }
   const rows = statement.all(...bindings) as Record<string, unknown>[];
   if (method === 'values') {

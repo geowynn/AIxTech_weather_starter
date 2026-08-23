@@ -137,8 +137,7 @@ html[data-theme='slate'] .weather-muted {
 html[data-theme='aurora'] .weather-shell,
 html[data-theme='aurora'] .weather-panel {
   border-color: rgba(148, 163, 184, 0.16);
-  background:
-    linear-gradient(180deg, rgba(24, 28, 55, 0.68) 0%, rgba(8, 10, 22, 0.48) 100%);
+  background: linear-gradient(180deg, rgba(24, 28, 55, 0.68) 0%, rgba(8, 10, 22, 0.48) 100%);
   backdrop-filter: blur(22px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
@@ -147,8 +146,7 @@ html[data-theme='aurora'] .weather-panel {
 
 html[data-theme='aurora'] .weather-panel-strong {
   border-color: rgba(196, 181, 253, 0.24);
-  background:
-    linear-gradient(180deg, rgba(49, 39, 84, 0.72) 0%, rgba(14, 18, 37, 0.58) 100%);
+  background: linear-gradient(180deg, rgba(49, 39, 84, 0.72) 0%, rgba(14, 18, 37, 0.58) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
     0 18px 45px rgba(0, 0, 0, 0.28);
@@ -161,8 +159,7 @@ html[data-theme='aurora'] .weather-muted {
 html[data-theme='coastal-breeze'] .weather-shell,
 html[data-theme='coastal-breeze'] .weather-panel {
   border-color: rgba(255, 255, 255, 0.22);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(226, 244, 251, 0.56) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(226, 244, 251, 0.56) 100%);
   color: #11324a;
   backdrop-filter: blur(18px);
   box-shadow:
@@ -172,8 +169,7 @@ html[data-theme='coastal-breeze'] .weather-panel {
 
 html[data-theme='coastal-breeze'] .weather-panel-strong {
   border-color: rgba(94, 182, 218, 0.36);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(207, 237, 247, 0.72) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(207, 237, 247, 0.72) 100%);
 }
 
 html[data-theme='coastal-breeze'] .weather-muted {
@@ -188,8 +184,7 @@ html[data-theme='coastal-breeze'] .weather-panel * {
 html[data-theme='storm-radar'] .weather-shell,
 html[data-theme='storm-radar'] .weather-panel {
   border-color: rgba(255, 255, 255, 0.1);
-  background:
-    linear-gradient(180deg, rgba(24, 24, 24, 0.78) 0%, rgba(10, 10, 10, 0.56) 100%);
+  background: linear-gradient(180deg, rgba(24, 24, 24, 0.78) 0%, rgba(10, 10, 10, 0.56) 100%);
   backdrop-filter: blur(20px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
@@ -198,8 +193,7 @@ html[data-theme='storm-radar'] .weather-panel {
 
 html[data-theme='storm-radar'] .weather-panel-strong {
   border-color: rgba(255, 190, 92, 0.28);
-  background:
-    linear-gradient(180deg, rgba(44, 32, 18, 0.84) 0%, rgba(18, 14, 10, 0.62) 100%);
+  background: linear-gradient(180deg, rgba(44, 32, 18, 0.84) 0%, rgba(18, 14, 10, 0.62) 100%);
 }
 
 html[data-theme='storm-radar'] .weather-muted {
@@ -214,8 +208,7 @@ html[data-theme='storm-radar'] .weather-panel * {
 html[data-theme='mountain-lodge'] .weather-shell,
 html[data-theme='mountain-lodge'] .weather-panel {
   border-color: rgba(186, 199, 177, 0.2);
-  background:
-    linear-gradient(180deg, rgba(35, 44, 35, 0.76) 0%, rgba(19, 25, 19, 0.58) 100%);
+  background: linear-gradient(180deg, rgba(35, 44, 35, 0.76) 0%, rgba(19, 25, 19, 0.58) 100%);
   backdrop-filter: blur(20px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
@@ -224,8 +217,7 @@ html[data-theme='mountain-lodge'] .weather-panel {
 
 html[data-theme='mountain-lodge'] .weather-panel-strong {
   border-color: rgba(173, 212, 163, 0.28);
-  background:
-    linear-gradient(180deg, rgba(49, 62, 47, 0.82) 0%, rgba(25, 33, 24, 0.62) 100%);
+  background: linear-gradient(180deg, rgba(49, 62, 47, 0.82) 0%, rgba(25, 33, 24, 0.62) 100%);
 }
 
 html[data-theme='mountain-lodge'] .weather-muted {
@@ -240,8 +232,7 @@ html[data-theme='mountain-lodge'] .weather-panel * {
 html[data-theme='metro-transit'] .weather-shell,
 html[data-theme='metro-transit'] .weather-panel {
   border-color: rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(180deg, rgba(18, 18, 18, 0.84) 0%, rgba(8, 8, 8, 0.58) 100%);
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.84) 0%, rgba(8, 8, 8, 0.58) 100%);
   backdrop-filter: blur(18px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
@@ -250,8 +241,7 @@ html[data-theme='metro-transit'] .weather-panel {
 
 html[data-theme='metro-transit'] .weather-panel-strong {
   border-color: rgba(255, 86, 86, 0.26);
-  background:
-    linear-gradient(180deg, rgba(36, 16, 16, 0.9) 0%, rgba(18, 12, 12, 0.7) 100%);
+  background: linear-gradient(180deg, rgba(36, 16, 16, 0.9) 0%, rgba(18, 12, 12, 0.7) 100%);
 }
 
 html[data-theme='metro-transit'] .weather-muted {
@@ -266,8 +256,7 @@ html[data-theme='metro-transit'] .weather-panel * {
 html[data-theme='golden-hour'] .weather-shell,
 html[data-theme='golden-hour'] .weather-panel {
   border-color: rgba(255, 255, 255, 0.18);
-  background:
-    linear-gradient(180deg, rgba(255, 244, 216, 0.74) 0%, rgba(255, 225, 186, 0.56) 100%);
+  background: linear-gradient(180deg, rgba(255, 244, 216, 0.74) 0%, rgba(255, 225, 186, 0.56) 100%);
   color: #59331f;
   backdrop-filter: blur(18px);
   box-shadow:
@@ -277,8 +266,7 @@ html[data-theme='golden-hour'] .weather-panel {
 
 html[data-theme='golden-hour'] .weather-panel-strong {
   border-color: rgba(240, 141, 83, 0.28);
-  background:
-    linear-gradient(180deg, rgba(255, 232, 197, 0.9) 0%, rgba(255, 210, 160, 0.72) 100%);
+  background: linear-gradient(180deg, rgba(255, 232, 197, 0.9) 0%, rgba(255, 210, 160, 0.72) 100%);
 }
 
 html[data-theme='golden-hour'] .weather-muted {
@@ -293,8 +281,7 @@ html[data-theme='golden-hour'] .weather-panel * {
 html[data-theme='monsoon-ink'] .weather-shell,
 html[data-theme='monsoon-ink'] .weather-panel {
   border-color: rgba(96, 165, 250, 0.12);
-  background:
-    linear-gradient(180deg, rgba(8, 10, 22, 0.92) 0%, rgba(3, 5, 13, 0.78) 100%);
+  background: linear-gradient(180deg, rgba(8, 10, 22, 0.92) 0%, rgba(3, 5, 13, 0.78) 100%);
   backdrop-filter: blur(22px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
@@ -303,8 +290,7 @@ html[data-theme='monsoon-ink'] .weather-panel {
 
 html[data-theme='monsoon-ink'] .weather-panel-strong {
   border-color: rgba(178, 120, 255, 0.22);
-  background:
-    linear-gradient(180deg, rgba(22, 26, 51, 0.96) 0%, rgba(8, 10, 21, 0.82) 100%);
+  background: linear-gradient(180deg, rgba(22, 26, 51, 0.96) 0%, rgba(8, 10, 21, 0.82) 100%);
 }
 
 html[data-theme='monsoon-ink'] .weather-muted {
@@ -313,6 +299,41 @@ html[data-theme='monsoon-ink'] .weather-muted {
 
 html[data-theme='monsoon-ink'] .weather-shell *,
 html[data-theme='monsoon-ink'] .weather-panel * {
+  color: inherit;
+}
+
+html[data-theme='citrus-static'] {
+  color-scheme: dark;
+  --app-bg-a: rgba(255, 235, 145, 0.24);
+  --app-bg-b: rgba(120, 200, 92, 0.18);
+  --app-bg-start: #f5d84f;
+  --app-bg-mid-1: #f28c1b;
+  --app-bg-mid-2: #e45d1b;
+  --app-bg-end: #2f3f2a;
+}
+
+html[data-theme='citrus-static'] .weather-shell,
+html[data-theme='citrus-static'] .weather-panel {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, rgba(255, 250, 235, 0.84) 0%, rgba(255, 241, 201, 0.6) 100%);
+  color: #4a3709;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 16px 38px rgba(120, 82, 7, 0.2);
+}
+
+html[data-theme='citrus-static'] .weather-panel-strong {
+  border-color: rgba(242, 140, 27, 0.34);
+  background: linear-gradient(180deg, rgba(255, 247, 217, 0.94) 0%, rgba(255, 228, 148, 0.78) 100%);
+}
+
+html[data-theme='citrus-static'] .weather-muted {
+  color: rgba(74, 55, 9, 0.7);
+}
+
+html[data-theme='citrus-static'] .weather-shell *,
+html[data-theme='citrus-static'] .weather-panel * {
   color: inherit;
 }
 

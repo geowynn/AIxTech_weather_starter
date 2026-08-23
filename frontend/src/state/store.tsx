@@ -6,6 +6,7 @@ import {
   deleteLocation,
   logInteraction,
 } from '../api';
+import { ApiRequestError } from '../api';
 import type {
   CreateLocationPayload,
   Location,
@@ -52,16 +53,9 @@ export function StoreProvider({ children }: ProviderProps) {
   const [refreshingId, setRefreshingId] = useState<number | null>(null);
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
-  const [theme, setThemeState] = useState<ThemeName>(DEFAULT_THEME);
-  const [error, setError] = useState<unknown>(null);
-  const hydratedSavedLocations = useRef(false);
-  const hydratedAirQualityLocations = useRef(false);
-  const lastLocationsSignature = useRef('');
-
-  useEffect(() => {
+  const [theme, setThemeState] = useState<ThemeName>(() => {
     const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (
-      saved === 'apple' ||
+    return saved === 'apple' ||
       saved === 'slate' ||
       saved === 'aurora' ||
       saved === 'coastal-breeze' ||
@@ -69,10 +63,15 @@ export function StoreProvider({ children }: ProviderProps) {
       saved === 'mountain-lodge' ||
       saved === 'metro-transit' ||
       saved === 'golden-hour' ||
-      saved === 'monsoon-ink'
-    )
-      setThemeState(saved);
-  }, []);
+      saved === 'monsoon-ink' ||
+      saved === 'citrus-static'
+      ? saved
+      : DEFAULT_THEME;
+  });
+  const [error, setError] = useState<unknown>(null);
+  const hydratedSavedLocations = useRef(false);
+  const hydratedAirQualityLocations = useRef(false);
+  const lastLocationsSignature = useRef('');
 
   useEffect(() => {
     window.localStorage.setItem(THEME_STORAGE_KEY, theme);
@@ -115,12 +114,15 @@ export function StoreProvider({ children }: ProviderProps) {
 
   useEffect(() => {
     const signature = locations
-      .map((location) => `${location.id}:${location.latitude.toFixed(4)}:${location.longitude.toFixed(4)}`)
+      .map(
+        (location) =>
+          `${location.id}:${location.latitude.toFixed(4)}:${location.longitude.toFixed(4)}`
+      )
       .join('|');
     if (signature === lastLocationsSignature.current) return;
     lastLocationsSignature.current = signature;
     updateMapView(deriveMapView(locations));
-  }, [locations]);
+  }, [locations, updateMapView]);
 
   useEffect(() => {
     if (hydratedSavedLocations.current || isLoading || locations.length === 0) return;
@@ -134,7 +136,7 @@ export function StoreProvider({ children }: ProviderProps) {
         location.weather.rainfall_mm === null ||
         location.weather.wind_speed_knots === null ||
         location.weather.wind_direction_degrees === null ||
-        location.weather.uv_index === null,
+        location.weather.uv_index === null
     );
 
     if (!needsHydration) {
@@ -148,8 +150,8 @@ export function StoreProvider({ children }: ProviderProps) {
         locations.map((location) =>
           refreshLocation(location.id).catch((err) => {
             setError(err);
-          }),
-        ),
+          })
+        )
       );
       await load();
     })();
@@ -162,7 +164,7 @@ export function StoreProvider({ children }: ProviderProps) {
       (location) =>
         location.weather.psi_twenty_four_hourly === null ||
         location.weather.pm25_one_hourly === null ||
-        location.weather.air_quality_region === null,
+        location.weather.air_quality_region === null
     );
 
     if (!needsAirQualityHydration) {
@@ -176,8 +178,8 @@ export function StoreProvider({ children }: ProviderProps) {
         locations.map((location) =>
           refreshLocation(location.id).catch((err) => {
             setError(err);
-          }),
-        ),
+          })
+        )
       );
       await load();
     })();
@@ -204,6 +206,13 @@ export function StoreProvider({ children }: ProviderProps) {
           longitude: created.longitude,
         });
       } catch (err) {
+        if (err instanceof ApiRequestError && err.existingLocationId) {
+          const next = await load();
+          if (next.some((location) => location.id === err.existingLocationId)) {
+            setSelectedId(err.existingLocationId);
+          }
+          setIsAdding(false);
+        }
         setError(err);
         logInteraction('location_create_failed', {
           latitude: payload.latitude,
@@ -213,7 +222,7 @@ export function StoreProvider({ children }: ProviderProps) {
         throw err;
       }
     },
-    [load],
+    [load]
   );
 
   const refresh = useCallback(
@@ -235,7 +244,7 @@ export function StoreProvider({ children }: ProviderProps) {
         setRefreshingId(null);
       }
     },
-    [load],
+    [load]
   );
 
   const remove = useCallback(
@@ -259,7 +268,7 @@ export function StoreProvider({ children }: ProviderProps) {
         });
       }
     },
-    [load, selectedId],
+    [load, selectedId]
   );
 
   const value: StoreValue = {
